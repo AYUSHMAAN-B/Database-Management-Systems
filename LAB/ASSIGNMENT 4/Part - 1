@@ -1,0 +1,21 @@
+COMMANDS IN ORDER:
+	
+	TERMINAL 1								TERMINAL 2
+	
+	begin;
+	insert into actor values ( 125, 'Ayushmaan', '210010031', 'M' );
+										select * from actor;
+	commit;
+										select * from actor;
+										
+										
+	TERMINAL 1								TERMINAL 2
+	
+	begin;
+	insert into actor values ( 125, 'Ayushmaan', '210010031', 'M' );
+										select * from actor;
+	rollback;
+										select * from actor;
+										
+	
+	[7] ==> After committing, it will rollback;
