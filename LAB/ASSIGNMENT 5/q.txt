@@ -1,0 +1,46 @@
+MATCH
+
+1.call db.propertyKeys
+2.match (n) return n
+3.
+4.match (n:Person) return n
+5.match (n:Movie{released:2003}) return n
+6.match (n:Movie{released:2003}) return n.title,n.released
+7.match (n:Movie{released:2003}) return n.title as Movie_Title,n.released as Release_Year,n.tagline as Tagline
+8.match (n:Movie{title:"Speed Racer"}) <-[:WROTE]-(a:Person) return a,n
+9.match (n:Movie) --(a:Person{name:"Tom Hanks"}) return n,a
+10.match (n:Movie) - [r]- (a:Person{name:"Tom Hanks"}) return n.title,a.name,type(r)
+11.match (n:Movie)<-[r:ACTED_IN]-(p:Person{name:"Tom Hanks"}) return n.title,p.name,r.roles
+12.
+
+WHERE
+
+1.match (n:Movie)<-[r:ACTED_IN]-(p:Person) where p.name = "Tom Cruise" return n.title,p.name,r.roles
+2.match (n:Person) where n.born >= 1970 and n.born<1980 return n.name,n.born
+3.match (n:Movie)<-[r:ACTED_IN]-(p:Person) where n.title = "The Matrix" and p.born >= 1960 return n.title,p.name,r.roles,p.born
+4.match (n:Movie)<-[r]-(p:Person) where type(r) = "WROTE" return n.title,p.name
+5.match (p:Person) where p.born is null return p.name,p.born
+6.match (n:Movie)<-[r:REVIEWED]-(p:Person) return n.title,p.name,r.rating
+7.match (n:Person) where n.name starts with "James" return n.name
+8.match (n:Person)-[r:REVIEWED]->(m:Movie) where r.summary contains "fun" return n.name,r.summary,m.title
+[9].match (:Movie)<-[:PRODUCED]-(p:Person) where not exists ((p)-[:DIRECTED]-(:Movie)) return p
+10.match (d:Person)-[:DIRECTED]->(n:Movie)<-[a:ACTED_IN]-(p:Person) where exists ((d)-[:ACTED_IN]-(n)) return n,p,d
+11.match (m:Movie) where m.released in [2000,2002,2004] return m.title,m.released
+
+MULTIPLE PATTERNS
+
+1.match (p:Person{name:"Gene Hackman"})-[:ACTED_IN]->(m:Movie)<-[:DIRECTED]-(d:Person),(a:Person)-[:ACTED_IN]->(m) return p,d,a,m
+2.match (p:Person{name:"James Thompson"})-[:FOLLOWS]-(a:Person) return p,a
+3.match (p:Person{name:"James Thompson"})-[:FOLLOWS*3]-(a:Person) return p,a
+  match (p:Person{name:"James Thompson"})-[:FOLLOWS*..3]-(a:Person) return p,a
+4.
+5.
+6.match (p:Person) where p.name starts with "Tom" optional match (p)-[:DIRECTED]-(m:Movie) return p.name,m.title
+7.match (p:Person)-[:ACTED_IN]->(m:Movie) return p.name,collect(m.title)
+8.match (m:Movie) optional match (p:Person)-[:REVIEWED]->(m) return m.title,collect(p.name),size(collect(p.name))
+9.match (p:Person)-[:ACTED_IN]->(m:Movie) with p as actor, collect(m.title) as movies  where size(movies) = 5 return actor.name,actor.born,movies 
+
+DISTINCT, MIN, MAX
+
+1.match (p:Person)-[r:REVIEWED]->(m:Movie) with m.title as mov, avg(r.rating) as average return mov,average order by average desc limit 5
+

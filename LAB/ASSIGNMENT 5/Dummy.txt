@@ -1,0 +1,87 @@
+Question 1:
+call db.schema.visualization
+
+Question 2:
+call db.propertyKeys();
+
+Question 3:
+match (n) return n
+
+Question 4:
+match (n:Person) return n
+
+Question 5:
+match (m:Movie {released:2003}) return m
+
+Question 6:
+match (m:Movie {released:2003}) return m.tile,m.tagline
+
+Question 7:
+match (m:Movie {released:2003})
+return m.title AS Title_Name,m.released AS Release_Year,m.tagline AS Tagline
+
+Question 8:
+match (p:Person)-[:WROTE]->(m:Movie)
+WHERE m.title="Speed Racer"
+return p
+
+Question 9:
+match (p:Person)-[:DIRECTED]->(m:Movie)
+WHERE p.name="Tom Hanks"
+return m
+UNION
+match (p:Person)-[:ACTED_IN]->(m:Movie)
+WHERE p.name="Tom Hanks"
+return m
+UNION
+match (p:Person)-[:PRODUCED]->(m:Movie)
+WHERE p.name="Tom Hanks"
+return m
+UNION
+match (p:Person)-[:REVIEWED]->(m:Movie)
+WHERE p.name="Tom Hanks"
+return m
+UNION
+match (p:Person)-[:WROTE]->(m:Movie)
+WHERE p.name="Tom Hanks"
+return m
+
+Question 10:
+match (p:Person)-[dir:DIRECTED]->(m:Movie)
+WHERE p.name="Tom Hanks"
+return m,"DIRECTED" as relationship
+UNION
+match (p:Person)-[:ACTED_IN]->(m:Movie)
+WHERE p.name="Tom Hanks"
+return m,"Acted" as relationship
+UNION
+match (p:Person)-[:PRODUCED]->(m:Movie)
+WHERE p.name="Tom Hanks"
+return m,"Produced" as relationship
+UNION
+match (p:Person)-[:REVIEWED]->(m:Movie)
+WHERE p.name="Tom Hanks"
+return m,"reviewed" as relationship
+UNION
+match (p:Person)-[:WROTE]->(m:Movie)
+WHERE p.name="Tom Hanks"
+return m,"wrote" as relationship
+
+Question 11:
+match (p:Person)-[act:ACTED_IN]->(m:Movie)
+WHERE p.name="Tom Hanks"
+return act.roles
+
+Question 12:
+match (p:Person)-[act:ACTED_IN]->(m:Movie)
+WHERE m.title="The Matrix"
+return p.name as actor_name,act.roles as actor_role
+
+#########################################################################################
+
+Question 1:
+match (p:Person)-[act:ACTED_IN]->(m:Movie)
+WHERE p.name="Tom Cruise"
+return m
+
+Question 2:
