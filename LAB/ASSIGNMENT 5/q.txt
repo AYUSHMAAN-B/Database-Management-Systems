@@ -32,8 +32,7 @@ MULTIPLE PATTERNS
 1.match (p:Person{name:"Gene Hackman"})-[:ACTED_IN]->(m:Movie)<-[:DIRECTED]-(d:Person),(a:Person)-[:ACTED_IN]->(m) return p,d,a,m
 2.match (p:Person{name:"James Thompson"})-[:FOLLOWS]-(a:Person) return p,a
 3.match (p:Person{name:"James Thompson"})-[:FOLLOWS*3]-(a:Person) return p,a
-  match (p:Person{name:"James Thompson"})-[:FOLLOWS*..3]-(a:Person) return p,a
-4.
+4.match (p:Person{name:"James Thompson"})-[:FOLLOWS*..3]-(a:Person) return p,a
 5.
 6.match (p:Person) where p.name starts with "Tom" optional match (p)-[:DIRECTED]-(m:Movie) return p.name,m.title
 7.match (p:Person)-[:ACTED_IN]->(m:Movie) return p.name,collect(m.title)

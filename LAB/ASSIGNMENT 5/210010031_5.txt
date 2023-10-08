@@ -1,0 +1,53 @@
+BASIC RETRIEVAL
+
+1. CALL db.schema.visualization
+2. CALL db.propertyKeys()
+3. MATCH (n) RETURN n
+4. MATCH (n : Person) RETURN n
+5. MATCH (n:Movie{released:2003}) RETURN n 
+6. MATCH (n:Movie{released:2003}) RETURN n.title, n.tagline
+7. MATCH (n:Movie{released:2003}) RETURN n.title AS MOVIE_TITLE, n.tagline AS TAGLINE, n.released AS RELEASED_YEAR
+8. MATCH (p:Person)-[WROTE]->(n:Movie{title:"Speed Racer"}) RETURN p
+9. MATCH (p:Person{name:"Tom Hanks"})-[r]->(n:Movie) RETURN p, n
+10. MATCH (p:Person{name:"Tom Hanks"})-[r]->(n:Movie) RETURN p.name, type(r), n.title
+11. MATCH (p:Person{name:"Tom Hanks"})-[r:ACTED_IN]->(n:Movie) RETURN r.roles AS ACTED_AS, n.title AS IN
+12. MATCH (p:Person)-[r:ACTED_IN]->(n:Movie{title:"The Matrix"}) RETURN p.name AS ACTOR, r.roles AS ACTED_AS, n.title AS IN
+
+WHERE
+
+1. MATCH (p:Person{name:"Tom Cruise"})-[r:ACTED_IN]->(m:Movie) RETURN p.name, r.roles, m.title
+2. MATCH (p:Person) WHERE p.born >= 1970 and p.born < 1980 RETURN p.name, p.born
+3. MATCH (p:Person)-[r:ACTED_IN]->(m:Movie{title:"The Matrix"}) WHERE p.born >1960 RETURN p.name, r.roles, m.title
+4. MATCH (p:Person)-[r:WROTE]->(m:Movie) RETURN p.name, m.title
+5. MATCH (p:Person) WHERE p.born is null RETURN p
+6. MATCH (p:Person)-[r:REVIEWED]->(m:Movie) RETURN p.name, m.title, r.rating
+7. MATCH (p:Person) WHERE p.name starts with "James" RETURN p
+8. MATCH (p:Person)-[r:REVIEWED]->(m:Movie) WHERE r.summary contains "fun"  RETURN p.name, m.title, r.summary, r.rating
+9. MATCH (p:Person)-[r:PRODUCED]->(m:Movie) WHERE NOT EXISTS ((p)-[:DIRECTED]->(:Movie))  RETURN p.name, m.title
+10. MATCH (p:Person)-[:DIRECTED]->(m:Movie)<-[:ACTED_IN]-(q:Person) WHERE EXISTS ((p)-[:ACTED_IN]->(m)) RETURN m.title, p.name, q.name
+11. MATCH (m:Movie) WHERE m.released IN [2000, 2002, 2003] RETURN m
+
+MULTIPLE PATTERNS
+
+1. MATCH (p:Person{name:"Gene Hackman"})-[:ACTED_IN]->(m:Movie)<-[:DIRECTED]-(q:Person), (r:Person)-[:ACTED_IN]->(m)  RETURN p.name, m.title, q.name, r.name
+2. MATCH (p:Person{name:"James Thompson"})-[f:FOLLOWS]->(q:Person) RETURN p, f, q			< DOUBT >
+3. MATCH (p:Person{name:"James Thompson"})-[f:FOLLOWS*3]->(q:Person) RETURN p, f, q			< DOUBT >
+4. MATCH (p:Person{name:"James Thompson"})-[f:FOLLOWS*..3]->(q:Person) RETURN p, f, q		< DOUBT >
+5. MATCH (p:Person{name:"James Thompson"})-[f:FOLLOWS*]->(q:Person) RETURN p, f, q			< DOUBT >
+6. MATCH (p:Person) WHERE p.name starts with "Tom" OPTIONAL MATCH (p)-[:DIRECTED]->(m:Movie) RETURN p, m
+7. MATCH (p:Person)-[a:ACTED_IN]->(m:Movie) RETURN p.name, collect(m.title)
+8. MATCH (m:Movie) OPTIONAL MATCH (p:Person)-[r:REVIEWED]->(m) RETURN m.title, collect(p.name), size(collect(p.name))
+9. MATCH (p:Person)-[a:ACTED_IN]->(m:Movie) WITH p AS ACTOR, collect(m.title) AS MOVIES WHERE size(MOVIES) = 5 RETURN ACTOR.name AS ACTOR, MOVIES
+
+DISTINCT, MIN, MAX
+
+1. MATCH (p:Person)-[r:REVIEWED]->(m:Movie) WITH m.title AS movie, avg(r.rating) AS rating RETURN movie, rating  ORDER BY rating DESC LIMIT 5
+2. MATCH (p:Person)-[a:ACTED_IN]->(m:Movie) WITH p AS ACTOR, collect(m.title) AS MOVIES WHERE size(MOVIES) <=3 RETURN ACTOR.name AS ACTOR, MOVIES
+
+LISTS AND DATE
+
+1. 
+2. 
+3. 
+4. 
+
