@@ -51,3 +51,13 @@ LISTS AND DATE
 3. 
 4. 
 
+EXERCISES
+
+1. MATCH (n:Movie) RETURN n
+2. MATCH (n:Movie) RETURN n.title, n.tagline, n.released
+3. MATCH (p:Person) RETURN p.name AS Name, p.born AS Year_Of_Birth
+4. MATCH (p:Person)-[r]->(m:Movie{title:"The Matrix"}) RETURN p.name AS Name, type(r)
+5. MATCH (p:Person)-[r]->(m:Movie{title:"The Matrix"}) RETURN p.name AS Name, type(r)
+6. MATCH (m:Movie{released:2000}) RETURN m.title
+7. MATCH (p:Person)-[a:ACTED_IN]->(m:Movie) WHERE p.name ends with "Thompson" RETURN p.name, m.title, a.roles
+8. 
