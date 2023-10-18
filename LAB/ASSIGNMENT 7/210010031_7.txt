@@ -1,0 +1,99 @@
+INSERT AND DELETE
+
+1. SET client1 Alice
+2. GET client1
+3. SET client1 Ayushmaan
+4. 
+5. DEL client1
+6. 
+7. SET client1:name Ayushmaan
+8. SET client1:level 1
+	GET client:1:level
+
+UPDATE VALUES
+
+1. INCR client:1:level
+2. DECR client:1:level
+
+DELETE BASED ON TIME
+
+1. EXISTS client:1:name
+2. 
+3. SET message "Ayushmaan is a good boy"
+4. EXPIRE message 50
+5. TTL message
+6. TTL client:1:name
+7. 
+8. SETEX message2 150 "Ayushmaan is a good boy"
+9. PERSIST message2
+10. 
+11. 
+
+INSERTING MULTIPLE KEYS TOGETHER
+
+1. MSET server:1:name Apache server:1:port 8000
+2. APPEND server:1:name " lite"
+3. RENAME server:1:name server:1:identifier
+4. FLUSHALL
+
+LIST
+
+1. RPUSH customers Alice Bob Charles
+2. LRANGE customers 0 2 [-1] [-2]
+3. 
+4. 
+5. LINSERT customers AFTER "Bob" "Harry"
+6. LINSERT customers BEFORE "Bob" "Harry"
+7. LLEN customers
+8. RPOP customers
+9. 
+10. FLUSHALL
+
+SET
+
+1. SADD courses CS Maths Physics
+2. 
+3. SMEMBERS courses
+4. 
+5. SCARD courses
+6. SISMEMBER courses CS
+7. 
+8. SMOVE courses BasicScience Physics
+9. SREM courses CS
+10. 
+11. FLUSHALL
+
+ORDERED SET
+
+1. ZADD clients 3500 Harry 3300 Alice 3500 Charles 3400 Robert
+2. ZRANGE clients 0 -1
+3. 
+4. ZRANK clients Robert
+5. 
+6. ZINCRBY clients 500 Robert
+7. 
+8. FLUSHALL
+
+HASH SET
+
+1. HSET customer:1 name Ayushmaan income 100000
+2. HGET customer:1 name
+3. 
+4. 
+5. HGETALL customer:1
+6. 
+7. HKEYS customer:1
+8. HVALS customer:1
+9. 
+10. 
+11. HLEN customer:1
+12. HINCRYBY customer:1 income 50000
+13. HDEL customer:1 name
+
+SAVE & EXIT
+
+1. SAVE
+2. QUIT
+
+
+
