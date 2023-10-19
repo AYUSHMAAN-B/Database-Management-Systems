@@ -1,0 +1,56 @@
+MODIFY NODES AND RELATIONSHIPS
+
+1. MATCH (m:Movie) WHERE m.released < 2010 SET m:OlderMovie
+2. CREATE (:Movie{title:"Forest Grump"})
+3. MATCH (m:Movie{title:"Forest Grump"}) SET m:OlderMovie, m.released = 1994,  m.tagline = "Life is like a box of chocolates...you never know what you're gonna get.", m.lengthInMinutes = 142
+4. MATCH (m:Movie{title:"Forest Grump"}) REMOVE m.lengthInMinutes
+5. MATCH (m:Movie{title:"Forest Grump"}) MATCH (p:Person) WHERE p.name = 'Tom Hanks' OR p.name = 'Robin Wright' OR p.name = 'Gary Sinise' CREATE (p)-[:ACTED_IN]->(M)
+6. MATCH (p1:Person{name:"Tom Hanks"}) MATCH (p1:Person{name:"Gary Sinise"}) CREATE (p1)-[:HELPED]->(p2)
+7. MATCH (p1:Person{name:"Tom Hanks"})-[h:HELPED]->(p2:Person{name:"Gary Sinise"}) SET h.research = "warhistory"
+8. MATCH (p1:Person{name:"Tom Hanks"})-[h:HELPED]->(p2:Person{name:"Gary Sinise"}) REMOVE h.research
+9. MATCH (:Person)-[h:HELPED]->(:Person) DELETE h
+10. ERROR : Cannot delete node<27>, because it still has relationships. To delete this node, you must first delete its relationships. MATCH (m:Movie{title:"Forrest Gump"}) DETACH DELETE m
+11. MATCH (m:OlderMovie) DETACH DELETE m		<DOUBT>
+
+CONSTRAINTS AND KEYS
+
+1. CREATE CONSTRAINT PersonNameUniqueConstraint ON (p:Person) ASSERT p.name IS UNIQUE  | ERROR : Invalid constraint syntax, ON and ASSERT should not be used.
+2. 
+3. 
+4. 
+5. 
+6. 
+7. 
+8. 
+9. 
+10. 
+11. 
+12. 
+
+SHORTEST PATH
+
+1. 
+
+IMPORTING DATA
+
+1. LOAD CSV WITH HEADERS FROM 'http://data.neo4j.com/v4.0-intro-neo4j/actors.csv' AS line RETURN line.id, line.name, line.birthYear
+2. LOAD CSV WITH HEADERS FROM 'http://data.neo4j.com/v4.0-intro-neo4j/actors.csv' AS line RETURN line.id, line.name, toInteger(trim(line.birthYear))
+3. LOAD CSV WITH HEADERS FROM 'http://data.neo4j.com/v4.0-intro-neo4j/actors.csv' AS line MERGE (actor:Person {name: line.name}) ON CREATE SET actor.born = toInteger(trim(line.birthYear)), actor.actorId = line.id ON MATCH SET actor.actorId = line.id
+
+EXERCISES
+
+1. MATCH (p:Person)-[r:REVIEWED]->(m:Movie)<-[:DIRECTED]-(d:Person) RETURN collect(DISTINCT r.rating), collect(DISTINCT d.name), m.title
+2. MATCH (p:Person) RETURN p.name AS Name,
+       CASE
+         WHEN (p)-[:DIRECTED]->(:Movie) THEN [(p)-[:DIRECTED]->(m:Movie) | m.title]
+         ELSE NULL
+       END AS MoviesDirected
+3. MATCH (p:Person{name:"Tom Hanks"})-[a:ACTED_IN]->(m:Movie), (p1:Person)-[:DIRECTED]->(m) WHERE p.name<>p1.name RETURN p1.name, m.title ORDER BY p1.name
+4. MATCH (p:Person{name:"Tom Hanks"})-[a:ACTED_IN]->(m:Movie), (p1:Person)-[:DIRECTED]->(m) WHERE p.name<>p1.name RETURN p1.name, collect(m.title) 
+5. MATCH (p1:Person)-[a:ACTED_IN]->(m:Movie)<-[:ACTED_IN]-(p2:Person) WHERE p1.name<>p2.name RETURN [p1.name, p2.name], collect(m.title)
+6. MATCH (p1:Person)-[a:ACTED_IN]->(m:Movie)<-[:ACTED_IN]-(p2:Person) WHERE p1.name<>p2.name AND id(p1) < id(p2) RETURN [p1.name, p2.name], collect(m.title)
+7. MATCH (p:Person) WHERE p.born IS NOT NULL SET p.CurrentAge = 2023 - p.born RETURN p
+8. MATCH (p:Person) OPTIONAL MATCH (p:Person)-[:ACTED_IN]->(m:Movie) WITH p, count(m.title) AS counted SET p.Num_Movies_Acted = counted RETURN p
+9. MATCH (p:Person) OPTIONAL MATCH (p:Person)-[:REVIEWED]->(m:Movie) RETURN p.name, collect(m.title)
+10. MATCH (a:Person)-[:ACTED_IN]->(m:Movie)<-[:DIRECTED]-(d:Person) WITH m.title AS Movie, count(a.name) AS Actors, count(d.name) AS Directors RETURN Movie, Actors, Directors ORDER BY Movie
+
