@@ -1,14 +1,13 @@
 INSERT AND DELETE
 
-1. SET client1 Alice
+1. SET client1 Alice 
 2. GET client1
-3. SET client1 Ayushmaan
-4. 
+3. prints 'OK'
+4. Outputs '(nil)'
 5. DEL client1
-6. 
+6. Outputs '(integer) 0'
 7. SET client1:name Ayushmaan
 8. SET client1:level 1
-	GET client:1:level
 
 UPDATE VALUES
 
@@ -18,16 +17,16 @@ UPDATE VALUES
 DELETE BASED ON TIME
 
 1. EXISTS client:1:name
-2. 
+2. EXISTS client:1:address -> Outputs '(integer) 0'
 3. SET message "Ayushmaan is a good boy"
 4. EXPIRE message 50
 5. TTL message
 6. TTL client:1:name
-7. 
+7. TTL client69 -> Outputs '(integer) -2'
 8. SETEX message2 150 "Ayushmaan is a good boy"
 9. PERSIST message2
-10. 
-11. 
+10. PERSIST msg -> Outputs '(integer) 0'
+11. PERSIST msgg -> Outputs '(integer) 0'
 
 INSERTING MULTIPLE KEYS TOGETHER
 
@@ -39,55 +38,55 @@ INSERTING MULTIPLE KEYS TOGETHER
 LIST
 
 1. RPUSH customers Alice Bob Charles
-2. LRANGE customers 0 2 [-1] [-2]
-3. 
-4. 
+2. LPUSH customers Alice Bob Charles
+3. LRANGE customers 0 2 [-1] [-2]
+4. LRANGE customers 0 1
 5. LINSERT customers AFTER "Bob" "Harry"
-6. LINSERT customers BEFORE "Bob" "Harry"
+6. LINSERT customers BEFORE "Bob" "Dumbledore"
 7. LLEN customers
 8. RPOP customers
-9. 
+9. LPOP customers
 10. FLUSHALL
 
 SET
 
 1. SADD courses CS Maths Physics
-2. 
+2. SADD courses Economics
 3. SMEMBERS courses
-4. 
+4. SADD courses Physics -> Outputs '(integer) 0'
 5. SCARD courses
 6. SISMEMBER courses CS
-7. 
+7. SISMEMBER courses Chemistry
 8. SMOVE courses BasicScience Physics
 9. SREM courses CS
-10. 
+10. SREM courses Chemistry -> Outputs '(integer) 0'
 11. FLUSHALL
 
 ORDERED SET
 
 1. ZADD clients 3500 Harry 3300 Alice 3500 Charles 3400 Robert
 2. ZRANGE clients 0 -1
-3. 
-4. ZRANK clients Robert
-5. 
+3. ZADD clients 3200 Charles -> Outputs '(integer) 0' [ Adds to the SET ]
+4. ZRANK clients Charles
+5. ZRANK clients Dumbledore -> Outputs '(nil)'
 6. ZINCRBY clients 500 Robert
-7. 
+7. ZRANGE clients 0 -1
 8. FLUSHALL
 
 HASH SET
 
 1. HSET customer:1 name Ayushmaan income 100000
 2. HGET customer:1 name
-3. 
-4. 
+3. HGET customer:1 address
+4. HGET customer:2 name
 5. HGETALL customer:1
-6. 
+6. HGETALL customer:2
 7. HKEYS customer:1
 8. HVALS customer:1
-9. 
-10. 
+9. HKEYS customer:2
+10. HVALS customer:2 
 11. HLEN customer:1
-12. HINCRYBY customer:1 income 50000
+12. HINCRBY customer:1 income 50000
 13. HDEL customer:1 name
 
 SAVE & EXIT
