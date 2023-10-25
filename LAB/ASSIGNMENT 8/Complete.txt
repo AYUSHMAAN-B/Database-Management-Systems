@@ -1,0 +1,15 @@
+CREATE AND LIST DATABASE
+
+1. show dbs
+2. use CompanyDB
+3. No
+
+INSERT
+
+1. use CompanyDB
+2. 
+3. 
+4. 
+5. 
+6. 
+
