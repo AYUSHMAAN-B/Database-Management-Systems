@@ -7,9 +7,42 @@ CREATE AND LIST DATABASE
 INSERT
 
 1. use CompanyDB
+2. db.createCollection('customers')
+   db.customers.insertOne({ name : 'Ayushmaan', age : 20 })
+3. Yes
+4. show collections
+5. db.customers.insertMany([{ name : 'Bob' }, { name : 'Cheryala', age : 20, level : 999 }, { name : 'Admin', age : 999 }])
+
+FIND
+
+1. 
 2. 
 3. 
 4. 
 5. 
 6. 
+7. 
+
+
+NESTED DOCUMENTS
+
+1. 
+2. 
+
+UPDATE
+
+1. db.customers.update({name : 'Ayushmaan'}, {$set : {age : 21}})
+2. 
+
+DELETE
+
+1. db.customers.deleteOne({name:'Bob'})
+2. db.customers.find({}, {_id : 0})
+3. db.customers.drop()
+4. db.CompanyDb.drop()
+
+SAMPLES
+
+1. 
+2. 
 
