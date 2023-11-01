@@ -1,0 +1,22 @@
+EXERCISES [ REDIS ]
+
+1. SET course:1:title "Data Management"
+   SET course:1:NoOfStudents 3
+   SADD course:1:TB "Fundamentals of Database Systems" "NoSQL for Mere Mortals"
+2. ZADD course:1:students 9.1 Ayushmaan 8.9 Manikanta 9.0 Sanchi
+3. ZRANGE course:1:students 0 -1
+4. SCARD course:1:TB
+5. RENAME course:1:TB course:1:materials
+6. SADD course:1:materials "Slides"
+7. SET course:1:assignment4 "Redis and MondoDB"
+8. EXPIRE course:1:handout10 100
+9. KEYS *
+10. DEL course:1:NoOfStudents
+
+EXERCISES [ MONGODB ]
+
+1. show dbs
+2. show collections
+3. db.listingsAndReviews.find( { 'address.country' : 'Australia' }, { _id : 1, name : 1 } )
+4. db.listingsAndReviews.find( { bedrooms : { $gte : 2 } }, { _id : 1, name : 1 } )
+5. db.listingsAndReviews.find( {'address.location.is_location_exact' : true}, { _id : 1, name : 1, address : 1 } )
